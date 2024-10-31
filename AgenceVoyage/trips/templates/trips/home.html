@@ -1,0 +1,238 @@
+{% extends 'trips/base.html' %}
+{% load static %}
+		<!--[if lte IE 9]>
+		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
+			your browser</a> to improve your experience and security.</p>
+		<![endif]-->
+
+		<!-- main-menu Start --> 
+		
+		<!-- main-menu End -->
+		{% block content %}
+
+		
+		<!--about-us start -->
+		<section id="home" class="about-us">
+			<div class="container">
+				<div class="about-us-content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="single-about-us">
+								<div class="about-us-txt">
+									<h2>
+										Explore the Beauty of the Beautiful World 
+
+									</h2>
+									<div class="about-btn">
+										<a href="{% url 'tripsv' %}" class="about-view">
+											explore now
+										</a>
+									</div>
+								</div><!--/.about-us-txt-->
+							</div><!--/.single-about-us-->
+						</div><!--/.col-->
+						<div class="col-sm-0">
+							<div class="single-about-us">
+								
+							</div><!--/.single-about-us-->
+						</div><!--/.col-->
+					</div><!--/.row-->
+				</div><!--/.about-us-content-->
+			</div><!--/.container-->
+
+		</section><!--/.about-us-->
+		<!--about-us end -->
+
+		<!--travel-box start-->
+		
+
+        <!--service start-->
+		<section id="service" class="service">
+			<div class="container">
+
+				<div class="service-counter text-center">
+
+					<div class="col-md-4 col-sm-4">
+						<div class="single-service-box">
+							<div class="service-img">
+								<img src="{% static 'trips/assets/images/service/s1.png' %}" alt="service-icon" />
+							</div><!--/.service-img-->
+							<div class="service-content">
+								<h2>
+									<a href="#">
+									amazing tour packages
+									</a>
+								</h2>
+								<p>Sit back, relax, and let our expert guides take care of every detail.</p>
+							</div><!--/.service-content-->
+						</div><!--/.single-service-box-->
+					</div><!--/.col-->
+
+					<div class="col-md-4 col-sm-4">
+						<div class="single-service-box">
+							<div class="service-img">
+								<img src="{% static 'trips/assets/images/service/s2.png' %}" alt="service-icon" />
+							</div><!--/.service-img-->
+							<div class="service-content">
+								<h2>
+									<a href="#">
+										book top class hotel
+									</a>
+								</h2>
+								<p>Indulge in the epitome of luxury at Top Class Hotel, where every moment is crafted to elevate your experience to unparalleled heights.</p>
+							</div><!--/.service-content-->
+						</div><!--/.single-service-box-->
+					</div><!--/.col-->
+
+					<div class="col-md-4 col-sm-4">
+						<div class="single-service-box">
+							<div class="statistics-img">
+								<img src="{% static 'trips/assets/images/service/s3.png' %}" alt="service-icon" />
+							</div><!--/.service-img-->
+							<div class="service-content">
+
+								<h2>
+									<a href="#">
+										online flight booking
+									</a>
+								</h2>
+								<p>fly and relax in the best airplane .</p>
+							</div><!--/.service-content-->
+						</div><!--/.single-service-box-->
+					</div><!--/.col-->
+
+				</div><!--/.statistics-counter-->	
+			</div><!--/.container-->
+
+		</section><!--/.service-->
+		<!--service end-->
+
+		<!--galley start-->
+		<section id="gallery" class="gallery">
+			<div class="container">
+				<div class="gallery-details">
+					<div class="gallary-header text-center">
+						<h2>
+							Countries
+						</h2>
+						<p>
+							
+						</p>
+					</div><!--/.gallery-header-->
+					<div class="gallery-box">
+						<div class="gallery-content">
+						  	<div class="filtr-container">
+						  		<div class="row">
+									{% for country in Countries %}
+						  			<div class="col-md-6">
+						  				<div class="filtr-item">
+											<a href="{% url 'destinationDetails' pk=country.id %}">
+												{%if country.photo%}
+											<img src="{{ country.photo.url }}" alt="{{ country.categorie }}">
+											{%endif%}
+										</a>
+											<div class="item-title">
+												<a href="{% url 'destinationDetails' pk=country.id %}">
+													{{ country.nom }}
+												</a>
+												<p><span>{{ country.categorie.nom }}</span></p> 
+											</div><!-- /.item-title -->
+										</div><!-- /.filtr-item -->
+						  			</div><!-- /.col -->
+
+						  			{% endfor %}
+						  			
+
+						  			
+
+						  		</div><!-- /.row -->
+
+						  	</div><!-- /.filtr-container-->
+						</div><!-- /.gallery-content -->
+					</div><!--/.galley-box-->
+				</div><!--/.gallery-details-->
+			</div><!--/.container-->
+
+		</section><!--/.gallery-->
+		<!--gallery end-->
+ 
+
+		<!--discount-offer start-->
+		
+		<!--discount-offer end-->
+
+		<!--packages start-->
+		<section id="pack" class="packages">
+			<div class="container">
+				<div class="gallary-header text-center">
+					<h2>
+						Promotion
+					</h2>
+					<p>
+						Benefit from Our promotion  
+					</p>
+				</div><!--/.gallery-header-->
+				<div class="packages-content">
+					<div class="row">
+						{% for promo in Promos %}
+						<div class="col-md-4 col-sm-6">
+							<div class="single-package-item">
+								<img src="{{ promo.voyage.photo.url }}" alt="{{ promo.categorie }}">
+								<div class="single-package-item-txt">
+									<h3>{{ promo.voyage.destination.nom }} <span class="pull-right">{{ promo.nouveauPrix }} Dh </span></h3>
+									<h3>Discount : {{ promo.pourcentagePromotion }}%</h3>
+									<div class="packages-para">
+										<p>
+											<span>
+												<i class="fa fa-angle-right"></i> Start date : <br>{{ promo.dateDebut }}
+											</span>
+											<span>
+											<i class="fa fa-angle-right"></i>  Hotel Name: {{ promo.voyage.hotel.hotelNom }}
+										    </span>
+										</p>
+										<p>
+											<span>
+												<i class="fa fa-angle-right"></i>  End date : <br>{{ promo.dateFin }}
+											</span>
+											<span>
+												<i class="fa fa-angle-right"></i>  Airplane Name: {{ promo.voyage.avion.nomAvion }}
+											</span>
+										 </p>
+									</div><!--/.packages-para-->
+									<div class="about-btn">
+										{% if user.is_authenticated %}
+                                           <a href="{% url 'voyageBooking' pk=promo.voyage.id %}" class="about-view packages-btn">
+                                                   Book Now
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'login' %}" class="about-view packages-btn">
+                                                   Book Now
+                                            </a>
+                                        {% endif %}
+									</div><!--/.about-btn-->
+								</div><!--/.single-package-item-txt-->
+							</div><!--/.single-package-item-->
+
+						</div><!--/.col-->
+						{% endfor %}
+
+					</div><!--/.row-->
+				</div><!--/.packages-content-->
+			</div><!--/.container-->
+
+		</section><!--/.packages-->
+		<!--packages end-->
+
+		
+
+
+		<!--special-offer start-->
+		<!--/.special-offer end-->
+		<!--special-offer end-->
+
+		
+
+		
+		
+		{% endblock %}
+		

@@ -1,0 +1,308 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>Client <b>Details</b></h2></div>
+                    <div class="col-sm-4">
+                        
+                        <br>
+                        <div class="col-xs-6 text-right mt-4">
+							<a href="#addEmployeeModal" class="btn btn-primary" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Client</span></a>					
+						</div>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Email</th>
+                        <th>Nom  </th>
+                        <th>Prenom </th>
+                        <th>Phone  </th>
+                        <th>Photo</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for client in clients %}
+                    {% if not client.is_admin %}
+                    <tr>
+                        <td>{{client.id}}</td>
+                        <td>{{client.username}}</td>
+                        <td>{{client.last_name}}</td>
+                        <td>{{client.first_name}} </td>
+                        <td>{{client.phone}} </td>
+                        {% if client.photo %}
+                        <td><img src="{{ client.photo.url }}" alt="Client Photo" class="img-thumbnail"></td>
+                        {% else %}
+                        <td></td>
+                        {% endif %}
+                        <td>
+                            
+                            <a href="#" class="edit" title="Edit" onclick="openEditClientModal('{{ client.id }}','{{ client.username }}','{{ client.last_name }}','{{ client.first_name }}','{{ client.phone }}','{{ client.photo }}')" data-toggle="modal"><i class="material-icons">&#xE254;</i></a>
+                            <a href="#" class="delete" title="Delete" onclick="openDeleteClientModal('{{ client.id }}')" data-toggle="modal"><i class="material-icons">&#xE872;</i></a>
+ 
+                        </td>
+                    </tr> 
+                    {% endif %}
+                    {% endfor %}  
+                    
+                </tbody>
+            </table>
+           
+        </div>
+    </div> 
+    <div id="addEmployeeModal" class="modal fade">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <form method="POST" action="{% url 'ajoutClient' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-header">                        
+                        <h4 class="modal-title">Add Client</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">                    
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Email</label>
+                            <div class="col-md-9">
+                                <input name="username" type="email" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Password</label>
+                            <div class="col-md-9">
+                                <input name="password" type="password" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Nom  </label>
+                            <div class="col-md-9">
+                                <input name="last_name" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Prenom</label>
+                            <div class="col-md-9">
+                                <input name="first_name" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Phone  </label>
+                            <div class="col-md-9">
+                                <input name="phone" type="number" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Photo</label>
+                            <div class="col-md-9">
+                                <input name="photo" type="file" class="form-control-file" required>
+                            </div>
+                        </div>   
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <a href="{% url 'ajoutClient' %}"><input type="submit" class="btn btn-primary" value="Add"></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!-- Edit Client Modal HTML -->
+<div id="editClientForm" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{% url 'editClient' pk=0 %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-header">                        
+                    <h4 class="modal-title">Edit Client</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editId">
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Email</label>
+                        <div class="col-md-9">
+                            <input name="username" id="editusername" type="email" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Nom  </label>
+                        <div class="col-md-9">
+                            <input name="last_name" id="editlast_name" type="text" class="form-control" required>
+                        </div>
+                    </div> 
+                    
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Prenom </label>
+                        <div class="col-md-9">
+                            <input name="first_name" id="editfirst_name" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Phone  </label>
+                        <div class="col-md-9">
+                            <input name="phone" id="editphone" type="number" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Photo</label>
+                        <div class="col-md-9">
+                            <input name="photo" id="editPhoto" type="file" class="form-control-file" required>
+                            <label for="editPhoto" id="editPhotoLabel">Choose file</label>
+                        </div>
+                    </div>   
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-primary" value="Edit">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Client Modal HTML -->
+<div id="deleteClientModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{% url 'deleteClient' pk=0 %}">
+                {% csrf_token %}
+                <div class="modal-header">                        
+                    <h4 class="modal-title">Delete Client</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">                    
+                    <p>Are you sure you want to delete this Client?</p>
+                    <p class="text-warning"><small>This action cannot be undone.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+        // Function to open edit modal and set values for Client
+        function openEditClientModal(id, username,password ,last_name, first_name, phone, photo) {
+    // Populate the form fields with Client data
+    $('#editId').val(id);
+    $('#editusername').val(username);
+    $('#editlast_name').val(last_name);
+    $('#editfirst_name').val(first_name);
+    $('#editphone').val(phone);
+    
+    // Set the filename as the label only if photo exists
+    if (photo) {
+        $('#editPhotoLabel').text(photo);
+    } else {
+        // If no file is selected, reset the label
+        $('#editPhotoLabel').text('Choose file');
+    }
+    
+    // Update the form action URL with the Client ID
+    var editFormAction = "{% url 'editClient' pk=0 %}".replace('0', id);
+    $('#editClientForm form').attr('action', editFormAction);
+
+    // Show the modal
+    $('#editClientForm').modal('show');
+}
+
+    function openDeleteClientModal(id) {
+        var deleteFormAction = "{% url 'deleteClient' pk=0 %}".replace('0', id);
+        $('#deleteClientModal form').attr('action', deleteFormAction);
+        $('#deleteClientModal').modal('show');
+    }
+    $(document).ready(function () {
+    $('#destination').on('change', function () {
+        var selectedDestinationId = $(this).val();
+        console.log('Selected Destination ID:', selectedDestinationId);
+
+        // Fetch avion and hotel options based on the selected destination using AJAX
+        $.ajax({
+            url: '{% url "get_avion_and_hotel_by_destination" %}',  // Use the template tag to generate the URL
+            data: { destination_id: selectedDestinationId },
+            dataType: 'json',
+            success: function (data) {
+                console.log('AJAX Response:', data);
+
+                // Clear existing options for Avion and Hotel
+                $('#avion').empty();
+                $('#hotel').empty();
+
+                // Add default options for Avion and Hotel
+                $('#avion').append('<option value="" disabled selected>Select an Avion</option>');
+                $('#hotel').append('<option value="" disabled selected>Select a Hotel</option>');
+
+                // Add new options for Avion based on the AJAX response
+                if (Array.isArray(data.avion_options)) {
+                    $.each(data.avion_options, function (index, avion) {
+                        $('#avion').append('<option value="' + avion.id + '">' + avion.nomAvion + '</option>');
+                    });
+                } else {
+                    console.error('Invalid data format for Avion options.');
+                }
+
+                // Add new options for Hotel based on the AJAX response
+                if (Array.isArray(data.hotel_options)) {
+                    $.each(data.hotel_options, function (index, hotel) {
+                        $('#hotel').append('<option value="' + hotel.id + '">' + hotel.hotelNom + '</option>');
+                    });
+                } else {
+                    console.error('Invalid data format for Hotel options.');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+            }
+        });
+    });
+});
+
+</script>
+<script>
+    $(document).ready(function() {
+        $('#iddestination').change(function() {
+            var destinationId = $(this).val();
+            $.ajax({
+                url: '{% url "get_avions_and_hotels" %}', // Update the URL to your Django view
+                data: {
+                    'destination_id': destinationId
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $('#idAvion').empty();
+                    $('#idhotel').empty();
+                    $.each(data.avions, function(key, value) {
+                        $('#idAvion').append('<option value="' + key + '">' + value + '</option>');
+                    });
+                    $.each(data.hotels, function(key, value) {
+                        $('#idhotel').append('<option value="' + key + '">' + value + '</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}
+{% block styles %}
+{% load static %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'admin_panel/css/gestVoyStyle.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    {% endblock %}

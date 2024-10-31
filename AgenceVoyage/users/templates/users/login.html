@@ -1,0 +1,114 @@
+{% extends 'trips/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- Required meta tags -->
+    {% block styles %}
+    {{block.super}}
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'users/assets/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'users/assets/css/owl.carousel.min.css' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'users/assets/css/bootstrap.min.css' %}">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="{% static 'users/assets/css/style.css' %}">
+    <script src="{% static 'users/assets/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'users/assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'users/assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'users/assets/js/main.js' %}"></script>
+    <style>
+      .half {
+          display: flex;
+      }
+      .bg {
+          flex-grow: 1;
+          background-image: url("{% static 'users/assets/images/DiveintoWprld.jpg' %}");
+          background-size: cover;
+          background-position: center;
+          height: 665px; /* Adjust the height to fill the viewport */
+      }
+      .contents {
+          flex-grow: 1;
+          padding: 80px;
+      }
+
+
+.create-account {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.create-account-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.create-account-link:hover {
+    color: #0056b3;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+      
+  </style>
+    {% endblock %}
+
+    <title>Login #2</title>
+  
+  
+
+  <div class="d-lg-flex half">
+    <div class="bg order-1 order-md-2" ></div>
+    <div class="contents order-2 order-md-1">
+
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-7">
+            {% if messages %}
+                {% for message in messages %}
+                  <p class="error-message">{{ message }}</p>
+                {% endfor %}
+              {% endif %}
+            <h3>Let's  <strong>Dive Into The World</strong> Together</h3>
+      
+            <form action="" method="POST">
+              {% csrf_token %}
+              <div class="form-group first">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="text" class="form-control" name="UserName" placeholder="Enter email" >
+              </div>
+              <div class="form-group last mb-3">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" name="password" placeholder="Password">
+              </div>
+              
+              
+
+              <input type="submit" value="Log In" class="btn btn-block btn-primary" style="width: 150px; height: 50px; font-size: 18px;">
+              
+              <p class="create-account">New here? <a href="{% url 'inscription' %}" class="create-account-link">Create an account</a> and start exploring!</p>
+              
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+    
+  {% endblock %}

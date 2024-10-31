@@ -1,0 +1,13 @@
+<h1>{{ country.nom }}</h1>
+<img src="{{ country.photo.url }}" alt="{{ country.nom }} Photo">
+
+<h2>Voyages in {{ country.nom }}</h2>
+{% for voyage in voyages %}
+    <div>
+        <h3>{{ voyage.destination.nom }}</h3>
+        <img src="{{ voyage.destination.photo.url }}" alt="{{ voyage.destination.nom }} Photo">
+        <p>Duration: {{ voyage.duration }} days</p>
+        <p>Price: ${{ voyage.price }}</p>
+        <!-- Add other voyage details as needed -->
+    </div>
+{% endfor %}

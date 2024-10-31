@@ -1,0 +1,115 @@
+{% extends 'trips/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- Required meta tags -->
+    {% block styles %}
+    {{block.super}}
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'users/assets/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'users/assets/css/owl.carousel.min.css' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'users/assets/css/bootstrap.min.css' %}">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="{% static 'users/assets/css/style.css' %}">
+    <script src="{% static 'users/assets/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'users/assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'users/assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'users/assets/js/main.js' %}"></script>
+    <style>
+      
+      .bg {
+          flex-grow: 1;
+          background-image: url("{% static 'users/assets/images/DiveintoWprld.jpg' %}");
+          background-size: cover;
+          background-position: center;
+          height: 700px; /* Adjust the height to fill the viewport */
+      }
+      .contents {
+          flex-grow: 1;
+          padding: 80px;
+      }
+      .create-account {
+          margin-top: 20px;
+          font-size: 18px;
+          color: #333;
+          text-align: center;
+          line-height: 1.6;
+      }
+      .create-account-link {
+          color: #007bff;
+          text-decoration: none;
+          font-weight: bold;
+          transition: color 0.3s ease;
+      }
+      .create-account-link:hover {
+          color: #0056b3;
+      }
+      .error-message {
+        color: red; /* Set the text color to red */
+        font-size: 16px; /* Set the font size */
+        font-weight: bold; /* Set the font weight to bold */
+        margin-bottom: 10px; /* Add some margin at the bottom */
+     }
+    </style>
+    {% endblock %}
+
+    <title>Inscription</title>
+  
+  <div class="d-lg-flex half">
+    <div class="bg order-1 order-md-2" ></div>
+    <div class="contents order-2 order-md-1">
+        {% if error_message %}
+            <p class="error-message">{{ error_message }}</p>
+        {% endif %}
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-7">
+            <h3>Register and start exploring!</h3>
+            <form action="{% url 'register_user' %}" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group first">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" name="email" placeholder="Enter email" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+              </div>
+             
+              <div class="form-group">
+                <label for="exampleInputFirstName">First Name</label>
+                <input type="text" class="form-control" name="first_name" placeholder="Enter first name" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputLastName">Last Name</label>
+                <input type="text" class="form-control" name="last_name" placeholder="Enter last name" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPhone">Phone Number</label>
+                <input type="tel" class="form-control" name="phone" placeholder="Enter phone number" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPhoto">Profile Photo</label>
+                <input name="photo" type="file" class="form-control-file" required>
+              </div>
+            
+              
+              <input type="submit" value="Register" class="btn btn-block btn-primary" style="width: 150px; height: 50px; font-size: 18px;">
+              
+              <p class="create-account">Already have an account? <a href="#" class="create-account-link">Log In</a></p>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+  <br><br><br><br><br><br><br><br><br><br><br>
+  {% endblock %}

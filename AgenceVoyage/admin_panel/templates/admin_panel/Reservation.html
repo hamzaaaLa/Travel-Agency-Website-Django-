@@ -1,0 +1,67 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>Reservations <b>Details</b></h2></div>
+                    <div class="col-sm-4">
+                       
+                        <br>
+                    
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Voyage  destination</th>
+                        <th> Client Firstname </th>
+                        <th> Client Lastname</th>
+                        <th> Client Phone </th>
+                        <th>number of seats </th>
+                        <th>number of rooms</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for res in reservs %}
+                    <tr>
+                        <td>{{res.id}}</td>
+                        <td>{{res.voyage.destination.nom}}</td>
+                        <td>{{res.client.first_name}} </td>
+                        <td>{{res.client.last_name}} </td>
+                        <td>{{res.client.phone}} </td>
+                        <td>{{res.nbDePlace}} </td>
+                        <td>{{res.nbDeChambre}} </td>
+                        <td>{{res.prixTotal}} </td>
+                    </tr> 
+                    {% endfor %}      
+                </tbody>
+            </table>
+            
+        </div>
+    </div> 
+</div>  
+<!-- Edit Hotel Modal HTML -->
+
+
+<!-- Delete Hotel Modal HTML -->
+
+
+
+
+{% endblock %}
+{% block styles %}
+{% load static %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'admin_panel/css/gestVoyStyle.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    {% endblock %}
